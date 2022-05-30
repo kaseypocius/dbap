@@ -3,37 +3,37 @@
 
  Pd Port by Matthias Kronlachner, 2013
  www.matthiaskronlachner.com
- 
+
 	distance based amplitude panning in 2d spatium
-	
-	a-dbap2d calculates distance coefficients for sound panning 
-	in custom multi-channel loudspeaker configurations. 
-	
-	this code product, courtesy, andrŽ sier,
+
+	a-dbap2d calculates distance coefficients for sound panning
+	in custom multi-channel loudspeaker configurations.
+
+	this code product, courtesy, andrï¿½ sier,
 	march,may,october,november, december 2006
 	agosto07
 
 	extended from trond lossius excelent tl.dbap
-	thanks to trond for ideas in extending this object (bullseye method), 
-		
+	thanks to trond for ideas in extending this object (bullseye method),
+
 	thanks:
 		Mathieu Chamagne
 
-	credits: 
-		theory and max patch (Trond Lossius); 
-		c coding max external (AndrŽ Sier);
+	credits:
+		theory and max patch (Trond Lossius);
+		c coding max external (Andrï¿½ Sier);
 		windows port and several ideas like gains and inverse dbap (Mathieu Chamagne);
-	
+
 	license: this external is licenced by s373 (www.s373.net) in GNU-LGPL (see www.gnu.org)
 
-	
-	public availability: this external may be found at http://www.s373.net/code/dbap 
-	
+
+	public availability: this external may be found at http://www.s373.net/code/dbap
+
 	todo:
 		- local / global coords for multiplanar dimension expansion on the virtual world
-		- reverberated sources 
+		- reverberated sources
 		- voronoi diagrams for fields of audio regions
-		
+
 
 
 	modifies 4th build:
@@ -59,14 +59,14 @@
 		- add set individual snd coords and individual output
 		- array of om's to set different om's on different snd's
 
-	a-dbap2d calculates distance coefficients for sound panning 
+	a-dbap2d calculates distance coefficients for sound panning
 	in custom multi-channel loudspeaker configurations
 
-	receives a list of pairs(2d) of sound positions 
+	receives a list of pairs(2d) of sound positions
 	outputs matrix~ style input messages <i o v> (<input output value(0,1)>)
-	
+
 	(i-int, f-float, l-list)
-	
+
 	io:
 		args : 1 : sets num sound inputs
 		args : n : sets loudspeaker configuration
@@ -126,17 +126,17 @@
 typedef struct	_vec {	double x,y; 	} vec;
 
 typedef struct	_dbox
-{	vec min,max; 	
+{	vec min,max;
 	int active;
 	double gain;
 } dbox;
 
 typedef struct	_ssnd
-{	
-	vec		pos; //input snd coords	
-	double	a; //angle 
+{
+	vec		pos; //input snd coords
+	double	a; //angle
 	double	f; //falloff factor
-	double	radius; 	
+	double	radius;
 	int		om;
 	int		active;
 	double	gain;
@@ -156,9 +156,9 @@ typedef struct	_speak	//speakers struct
 
 typedef struct	_dbap2d
 {
-	t_object 	         c_ob;		
+	t_object 	         c_ob;
 	t_outlet 		        *c_out;
-	t_outlet 		        *c_out2;	
+	t_outlet 		        *c_out2;
 	t_atom				 out[OUTL];				// output list
 
 	ssnd				o[MAXVALUE];			// the snds and where and how they are
@@ -171,7 +171,7 @@ typedef struct	_dbap2d
 	int					num_regions;
 
 	int 	fall_off_mode; // linear, exponential, log .. not implemented
-	
+
 	vec		boxspeakersmin, boxspeakersmax, boxspeakersdim;				// the enclosing speakers box and info
 	vec		boxcoordsmin, boxcoordsmax, boxcenter, boxdim, boxradius;
 	int		box_mode;
@@ -179,7 +179,7 @@ typedef struct	_dbap2d
 
 	int		bullseye;							// a toggle to exec bullseye or not
 	int		regions;
-  
+
 } dbap2d;
 
 
@@ -199,7 +199,7 @@ void dbap2d_setspeaker (dbap2d *x, t_symbol *msg, short argc, t_atom *argv);	// 
 void dbap2d_radius(dbap2d *x, t_symbol *msg, short argc, t_atom *argv);
 void dbap2d_snd_radius(dbap2d *x, t_symbol *msg, short argc, t_atom *argv);
 void dbap2d_snd_diffusion(dbap2d *x, t_symbol *msg, short argc, t_atom *argv); //diffusion tris to work on 0.1. range
-void dbap2d_diffusion(dbap2d *x, t_symbol *msg, short argc, t_atom *argv); 
+void dbap2d_diffusion(dbap2d *x, t_symbol *msg, short argc, t_atom *argv);
 void dbap2d_gain (dbap2d *x, t_symbol *msg, short argc, t_atom *argv);
 void dbap2d_snd_gain(dbap2d *x, t_symbol *msg, short argc, t_atom *argv);
 void dbap2d_db (dbap2d *x, t_symbol *msg, short argc, t_atom *argv);
@@ -209,7 +209,7 @@ void dbap2d_snd_active(dbap2d *x, int snd, int active);
 void dbap2d_speaker_active(dbap2d *x, int speaker, int active);
 void dbap2d_region_active(dbap2d *x, int box, int active);
 
-void dbap2d_box_gain(dbap2d *x, t_symbol *msg, short argc, t_atom *argv); 
+void dbap2d_box_gain(dbap2d *x, t_symbol *msg, short argc, t_atom *argv);
 
 
 void dbap2d_num_sounds(dbap2d *x, int numsnds);
@@ -230,8 +230,8 @@ void dbap2d_setboxscale (dbap2d *x, t_symbol *msg, short argc, t_atom *argv);
 void dbap2d_setboxmode (dbap2d *x, int x1);
 
 
-void dbap2d_region (dbap2d *x, t_symbol *msg, short argc, t_atom *argv);	
-void dbap2d_regions (dbap2d *x, t_symbol *msg, short argc, t_atom *argv);	
+void dbap2d_region (dbap2d *x, t_symbol *msg, short argc, t_atom *argv);
+void dbap2d_regions (dbap2d *x, t_symbol *msg, short argc, t_atom *argv);
 void dbap2d_setregions (dbap2d *x, int x1);
 void dbap2d_num_regions(dbap2d *x, int numregions);
 
@@ -270,12 +270,12 @@ static void *dbap2d_new (t_symbol *msg, long argc, t_atom *argv) //input the arg
 
   x->c_out = outlet_new(&x->c_ob, NULL);
   x->c_out2 = outlet_new(&x->c_ob, NULL);
-  
+
 	if(argc){
 		if(argc==1) { //num inputs
-			if (argv[0].a_type == A_FLOAT) { 
-				x->num_sounds = argv[0].a_w.w_float; 
-			} else { error("argument is not int"); }
+			if (argv[0].a_type == A_FLOAT) {
+				x->num_sounds = argv[0].a_w.w_float;
+			} else { pd_error(x,"argument is not int"); }
 		} else if(argc>1) { //speakers
 			dbap2d_speakers(x, msg,argc,argv);
 		}
@@ -287,7 +287,7 @@ static void *dbap2d_new (t_symbol *msg, long argc, t_atom *argv) //input the arg
 	x->box_scale = 1;
 	x->box_mode = 0; // box is sphere
 //	x->fall_off = 0.1;
-	
+
 	x->bullseye = 0;
 
 	for(i=0;i<MAXVALUE;i++)
@@ -303,7 +303,7 @@ static void *dbap2d_new (t_symbol *msg, long argc, t_atom *argv) //input the arg
 
 	for(i=0;i<MAXVALUE;i++)
 	{
-//		x->speakers[i] = 0.0f; 
+//		x->speakers[i] = 0.0f;
 		x->woofers[i].pos.x = 0.0f;
 		x->woofers[i].pos.y = 0.0f;
 
@@ -312,18 +312,18 @@ static void *dbap2d_new (t_symbol *msg, long argc, t_atom *argv) //input the arg
 
 	for(i=0;i<MAXBOXES;i++)
 	{
-		x->boxes[i].min.x = 0.0f; 	
-		x->boxes[i].max.x = 0.0f; 
-		x->boxes[i].min.y = 0.0f; 	
-		x->boxes[i].max.y = 0.0f; 
-		
+		x->boxes[i].min.x = 0.0f;
+		x->boxes[i].max.x = 0.0f;
+		x->boxes[i].min.y = 0.0f;
+		x->boxes[i].max.y = 0.0f;
+
 		x->boxes[i].active = 0;
-		
+
 		x->boxes[i].gain = 1.0f;
 	}
 
 
-	 return(x);	
+	 return(x);
 }
 
 // radius is spatial blur
@@ -331,16 +331,16 @@ void dbap2d_radius(dbap2d *x, t_symbol *msg, short argc, t_atom *argv)
 {
 	double radius;
 	int i;
-  
+
 	if(argv->a_type == A_FLOAT) {
-		radius = (double)argv->a_w.w_float;	
+		radius = (double)argv->a_w.w_float;
 	} else if(argv->a_type == A_FLOAT) {
 		//radius = (double)argv->a_w.w_float;
 	}
 //	x->radius = radius;
 
 	for(i=0;i<x->num_sounds;i++) {
-	
+
 		x->o[i].radius = radius;
 		dbap2d_calc_snd(x,i);
 		}
@@ -358,7 +358,7 @@ void dbap2d_snd_radius(dbap2d *x, t_symbol *msg, short argc, t_atom *argv)
 			argv++;
 
 		if(argv->a_type == A_FLOAT) {
-			rad = (double)argv->a_w.w_float;	
+			rad = (double)argv->a_w.w_float;
 		}
 
 
@@ -366,7 +366,7 @@ void dbap2d_snd_radius(dbap2d *x, t_symbol *msg, short argc, t_atom *argv)
 		dbap2d_calc_snd(x,id);
 
 		}
-		
+
 	}
 
 
@@ -385,9 +385,9 @@ void dbap2d_snd_diffusion(dbap2d *x, t_symbol *msg, short argc, t_atom *argv) //
 			argv++;
 
 		if(argv->a_type == A_FLOAT) {
-			rad = (double)argv->a_w.w_float;	
+			rad = (double)argv->a_w.w_float;
 		}
-	
+
 
 
 		x->o[id].radius=rad*MAX(x->boxspeakersdim.x, x->boxspeakersdim.y);
@@ -395,7 +395,7 @@ void dbap2d_snd_diffusion(dbap2d *x, t_symbol *msg, short argc, t_atom *argv) //
 		dbap2d_calc_snd(x,id);
 
 		}
-		
+
 	}
 
 
@@ -407,18 +407,18 @@ void dbap2d_diffusion(dbap2d *x, t_symbol *msg, short argc, t_atom *argv) //diff
 	if (argc) {
 		double rad, maxdist;
 		int i;
-		
+
 		if(argv->a_type == A_FLOAT) {
-			rad = (double)argv->a_w.w_float;	
+			rad = (double)argv->a_w.w_float;
 		}
-	
+
 		maxdist = MAX(x->boxspeakersdim.x, x->boxspeakersdim.y);
 
 		for(i=0;i<x->num_sounds;i++) {
 			x->o[i].radius=rad*maxdist;
 			dbap2d_calc_snd(x,i);
 		}
-		
+
 	}
 
 
@@ -430,15 +430,15 @@ void dbap2d_gain(dbap2d *x, t_symbol *msg, short argc, t_atom *argv)
 {
 	double gain;
 	int i;
-	
+
 	if(argv->a_type == A_FLOAT) {
-		gain = (double)argv->a_w.w_float;	
+		gain = (double)argv->a_w.w_float;
 	}
-	
-	
+
+
 
 	for(i=0;i<x->num_sounds;i++) {
-	
+
 		x->o[i].gain = gain;
 		dbap2d_calc_snd(x,i);
 		}
@@ -456,16 +456,16 @@ void dbap2d_snd_gain(dbap2d *x, t_symbol *msg, short argc, t_atom *argv)
 			argv++;
 
 		if(argv->a_type == A_FLOAT) {
-			gain = (double)argv->a_w.w_float;	
+			gain = (double)argv->a_w.w_float;
 		}
-	
+
 
 
 		x->o[id].gain=gain;
 		dbap2d_calc_snd(x,id);
 
 		}
-		
+
 	}
 
 
@@ -477,15 +477,15 @@ void dbap2d_db(dbap2d *x, t_symbol *msg, short argc, t_atom *argv)
 {
 	double gain;
 	int i;
-	
+
 	if(argv->a_type == A_FLOAT) {
-		gain = (double)argv->a_w.w_float;	
+		gain = (double)argv->a_w.w_float;
 	}
-	
+
 	gain = pow(10.,(gain/20.)); //db to a
 
 	for(i=0;i<x->num_sounds;i++) {
-	
+
 		x->o[i].gain = gain;
 		dbap2d_calc_snd(x,i);
 		}
@@ -503,9 +503,9 @@ void dbap2d_snd_db(dbap2d *x, t_symbol *msg, short argc, t_atom *argv)
 			argv++;
 
 		if(argv->a_type == A_FLOAT) {
-			gain = (double)argv->a_w.w_float;	
+			gain = (double)argv->a_w.w_float;
 		}
-	
+
 		gain = pow(10.,(gain/20.)); //db to a
 
 
@@ -513,7 +513,7 @@ void dbap2d_snd_db(dbap2d *x, t_symbol *msg, short argc, t_atom *argv)
 		dbap2d_calc_snd(x,id);
 
 		}
-		
+
 	}
 
 
@@ -562,13 +562,13 @@ void dbap2d_om(dbap2d *x, t_symbol *msg, short argc, t_atom *argv)
 
 	int i,num;
 	int temp[MAXVALUE];
-	
+
 	num = MAX (1,argc);
-  
+
   if (num == 1) { // if just one argument -> set output mode for all sources!
     for(i=0;i<x->num_sounds;i++) {
       if (argv[i].a_type == A_FLOAT) { temp[0] = (int) argv[0].a_w.w_float; }
-      
+
       x->o[i].om = temp[0];
     }
     // recalculate
@@ -576,10 +576,10 @@ void dbap2d_om(dbap2d *x, t_symbol *msg, short argc, t_atom *argv)
       dbap2d_calc_snd(x, i);
     }
   } else {
-    
+
     for(i=0;i<num;i++) {
       if (argv[i].a_type == A_FLOAT) { temp[i] = (int) argv[i].a_w.w_float; }
-      
+
       x->o[i].om = temp[i];
     }
     // recalculate
@@ -600,10 +600,10 @@ void dbap2d_falloff(dbap2d *x, t_symbol *msg, short argc, t_atom *argv)
 	double x1;
 
 		if(argv->a_type == A_FLOAT) {
-			x1 = (double)argv->a_w.w_float;	
+			x1 = (double)argv->a_w.w_float;
 		}
-	
-	
+
+
 //	x->fall_off = x1*0.00001;
   // post ("falloff set %f", x1);
 	for(i=0;i<x->num_sounds;i++) {
@@ -620,11 +620,11 @@ void dbap2d_snd_falloff(dbap2d *x, t_symbol *msg, short argc, t_atom *argv)
 		if(argv->a_type == A_FLOAT) {
 			snd = (int)argv->a_w.w_float;//	post("should be int. truncating to %ld", snd);
 		}
-		
+
 		argv++;
 
 		if(argv->a_type == A_FLOAT) {
-			x1 = (double)argv->a_w.w_float;	
+			x1 = (double)argv->a_w.w_float;
 		}
 
 
@@ -637,29 +637,29 @@ void dbap2d_setboxscale (dbap2d *x, t_symbol *msg, short argc, t_atom *argv)
 	double x1;
 
 		if(argv->a_type == A_FLOAT) {
-			x1 = (double)argv->a_w.w_float;	
+			x1 = (double)argv->a_w.w_float;
 		}
     else { post("feed me a float please"); return; };
 
 
 //	post("setting box_scale to %f",x1);
 	x->box_scale = x1;
-	
+
 	dbap2d_box_scale(x);
 
 //	for(i=0;i<x->num_sounds;i++) dbap2d_calc_snd(x,i);
-		
+
 
 }
 
 
- double dbap2d_box_check (dbap2d *x, vec coords, double radius, double falloff, double distmass) 
+ double dbap2d_box_check (dbap2d *x, vec coords, double radius, double falloff, double distmass)
 {	// returns magnitude to scale final amp
 	// return 1 if snd coords inside box & factor to scale final amp
 	int inside=1;
 	double d1, d2,d3;
-	
-	
+
+
 
 	if(!x->box_mode) { // box is sphere
 
@@ -668,9 +668,9 @@ void dbap2d_setboxscale (dbap2d *x, t_symbol *msg, short argc, t_atom *argv)
 		d3-= d1;
 
 		if(d3<0.) { // inside
-			return (1.0f);	
+			return (1.0f);
 		}
-		
+
 		//outside
 		if(d3>0.) {
 			d2 = d3 / d1;
@@ -679,41 +679,41 @@ void dbap2d_setboxscale (dbap2d *x, t_symbol *msg, short argc, t_atom *argv)
 			d2 = 1. - d2;
 			if(d2<0.)
 				d2 = 0.;
-			
-			
+
+
 			return(d2);
 		}
-	
-	
-		
-		return (1.0f); 
-		
+
+
+
+		return (1.0f);
+
 	} else if(x->box_mode) {
 
-		if ( coords.x < x->boxcoordsmin.x || coords.x > x->boxcoordsmax.x ||	
+		if ( coords.x < x->boxcoordsmin.x || coords.x > x->boxcoordsmax.x ||
 			 coords.y < x->boxcoordsmin.y || coords.y > x->boxcoordsmax.y  )
 			 	inside = 0;
-		
+
 		if (inside) { return (1.0f); }
 
 	// find the less distance to the box
 	d1 = distan(x->boxcoordsmin,coords);
 	d2 = distan(x->boxcoordsmax,coords);
 	d3 = distan(x->boxcenter,coords);
-	
-	
+
+
 	return (1.0f);
 	}
 
 }
 
- double dbap2d_box_check2 (dbap2d *x, vec coords, double radius, double falloff, double distmass) 
+ double dbap2d_box_check2 (dbap2d *x, vec coords, double radius, double falloff, double distmass)
 {	// returns magnitude to scale final amp
 	// return 1 if snd coords inside box & factor to scale final amp
 	int inside=1;
 	double d1, d2,d3;
-	
-	
+
+
 
 	if(!x->box_mode) { // box is sphere
 
@@ -722,9 +722,9 @@ void dbap2d_setboxscale (dbap2d *x, t_symbol *msg, short argc, t_atom *argv)
 		d3-= d1;
 
 		if(d3<0.) { // inside
-			return (1.0f);	
+			return (1.0f);
 		}
-		
+
 		//outside
 		if(d3>0.) {
 			d2 = d3 / d1;
@@ -733,23 +733,23 @@ void dbap2d_setboxscale (dbap2d *x, t_symbol *msg, short argc, t_atom *argv)
 			d2 = 1. - d2;
 			if(d2<0.)
 				d2 = 0.;
-			
-			
+
+
 			return(d2);
 		}
-	
-		
-		return (1.0f); 
-		
+
+
+		return (1.0f);
+
 	} else if(x->box_mode) {
 
-		if ( coords.x < x->boxcoordsmin.x || coords.x > x->boxcoordsmax.x ||	
+		if ( coords.x < x->boxcoordsmin.x || coords.x > x->boxcoordsmax.x ||
 			 coords.y < x->boxcoordsmin.y || coords.y > x->boxcoordsmax.y  )
 			 	inside = 0;
-		
-		if (inside) { 
-		//	post("inside box");post("inside box"); 
-			return (1.0f); 
+
+		if (inside) {
+		//	post("inside box");post("inside box");
+			return (1.0f);
 		}
 
 /*
@@ -757,11 +757,11 @@ void dbap2d_setboxscale (dbap2d *x, t_symbol *msg, short argc, t_atom *argv)
 	d1 = distan(x->boxcoordsmin,coords);
 	d2 = distan(x->boxcoordsmax,coords);
 	d3 = distan(x->boxcenter,coords);
-	
+
 	post("outside box dist 2 box1: %f", d1);
 	post("outside box dist 2 box2: %f", d2);
 	post("outside box dist 3 box2: %f", d3);
-*/	
+*/
 	return (1.0f);
 	}
 
@@ -773,7 +773,7 @@ void dbap2d_box_scale (dbap2d *x)
 	vec min,max,s;
 	t_atom *out;
 	vec center;
-	
+
 	out = x->out;
 
 	 //init locals to first speaker
@@ -786,10 +786,10 @@ void dbap2d_box_scale (dbap2d *x)
 //		set (s, x->speakers[i*DIMEN+0],x->speakers[i*DIMEN+1]);
 		set (s, x->woofers[i].pos.x, x->woofers[i].pos.y);
 		// min max
-		if(min.x > s.x) { min.x = s.x; }	
-		if(min.y > s.y) { min.y = s.y; }	
-		if(max.x < s.x) { max.x = s.x; }	
-		if(max.y < s.y) { max.y = s.y; }	
+		if(min.x > s.x) { min.x = s.x; }
+		if(min.y > s.y) { min.y = s.y; }
+		if(max.x < s.x) { max.x = s.x; }
+		if(max.y < s.y) { max.y = s.y; }
 
 	}
 
@@ -797,17 +797,17 @@ void dbap2d_box_scale (dbap2d *x)
 	copy (x->boxspeakersmin,min);
 	copy (x->boxspeakersmax,max);
 
-	
+
 	// box center
-	center.x = (max.x + min.x) * 0.5f; 
-	center.y = (max.y + min.y) * 0.5f; 
+	center.x = (max.x + min.x) * 0.5f;
+	center.y = (max.y + min.y) * 0.5f;
 
 	copy (x->boxcenter,center);
 
 
 	// box speakers dim
-	s.x = (max.x - min.x) ; 
-	s.y = (max.y - min.y) ; 
+	s.x = (max.x - min.x) ;
+	s.y = (max.y - min.y) ;
 
 	copy (x->boxspeakersdim,s);
 
@@ -820,7 +820,7 @@ void dbap2d_box_scale (dbap2d *x)
 		//scale
 		scaleu(min,x->box_scale);
 		scaleu(max,x->box_scale);
-		
+
 		//move back to global axis
 		add(min,center);
 		add(max,center);
@@ -830,24 +830,24 @@ void dbap2d_box_scale (dbap2d *x)
 	copy(x->boxcoordsmax,max);
 
 	// box dim
-	s.x = (max.x - min.x) ; 
-	s.y = (max.y - min.y) ; 
+	s.x = (max.x - min.x) ;
+	s.y = (max.y - min.y) ;
 
 	copy (x->boxdim,s);
 
 
 	// box radius
-	s.x = x->boxdim.x*0.5 ; 
-	s.y = x->boxdim.y*0.5 ; 
+	s.x = x->boxdim.x*0.5 ;
+	s.y = x->boxdim.y*0.5 ;
 
 	copy (x->boxradius,s);
-	
-		
+
+
 	SETFLOAT(out+0, x->boxspeakersmin.x);
 	SETFLOAT(out+1, x->boxspeakersmin.y);
 	SETFLOAT(out+2, x->boxspeakersmax.x);
 	SETFLOAT(out+3, x->boxspeakersmax.y);
-		
+
 	outlet_anything(x->c_out2, ps_boxspeakers, 2*DIMEN, out);
 
 
@@ -855,7 +855,7 @@ void dbap2d_box_scale (dbap2d *x)
 	SETFLOAT(out+1, x->boxcoordsmin.y);
 	SETFLOAT(out+2, x->boxcoordsmax.x);
 	SETFLOAT(out+3, x->boxcoordsmax.y);
-		
+
 	outlet_anything(x->c_out2, ps_boxcoords, 2*DIMEN, out);
 
 
@@ -878,7 +878,7 @@ void dbap2d_box_scale (dbap2d *x)
 	SETFLOAT(out+1, x->boxradius.y);
 
 	outlet_anything(x->c_out2, ps_boxradius, DIMEN, out);
-	
+
 
 }
 
@@ -889,12 +889,12 @@ void dbap2d_setboxcoords (dbap2d *x, t_symbol *msg, short argc, t_atom *argv)
 	t_atom *out;
 
 	out = x->out;
-	
+
 	for(i=0;i<4;i++) {
 		if (argv[i].a_type == A_FLOAT) { temp[i] = (double) argv[i].a_w.w_float; }
-		
+
 	}
-	
+
 	x->boxspeakersmin.x = temp[0];
 	x->boxspeakersmin.y = temp[1];
 	x->boxspeakersmax.x = temp[2];
@@ -904,7 +904,7 @@ void dbap2d_setboxcoords (dbap2d *x, t_symbol *msg, short argc, t_atom *argv)
 	SETFLOAT(out+1, x->boxspeakersmin.y);
 	SETFLOAT(out+2, x->boxspeakersmax.x);
 	SETFLOAT(out+3, x->boxspeakersmax.y);
-		
+
 	outlet_anything(x->c_out2, ps_boxspeakers, 2*DIMEN, out);
 
 }
@@ -918,9 +918,9 @@ void dbap2d_setboxcenter (dbap2d *x, t_symbol *msg, short argc, t_atom *argv)
 	for(i=0;i<2;i++) {
 		if (argv[i].a_type == A_FLOAT) { temp[i] = (double) argv[i].a_w.w_float; }
 
-		
+
 	}
-	
+
 	x->boxcenter.x = temp[0];
 	x->boxcenter.y = temp[1];
 
@@ -941,9 +941,9 @@ void dbap2d_setboxdim (dbap2d *x, t_symbol *msg, short argc, t_atom *argv)
 	for(i=0;i<2;i++) {
 		if (argv[i].a_type == A_FLOAT) { temp[i] = (double) argv[i].a_w.w_float; }
 
-		
+
 	}
-	
+
 	x->boxdim.x = temp[0];
 	x->boxdim.y = temp[1];
 
@@ -974,7 +974,7 @@ void dbap2d_speakers (dbap2d *x, t_symbol *msg, short argc, t_atom *argv)
 //	double oneoverdimen = 1/DIMEN;
 //	vec min,max;
 	t_atom *out;
-	
+
 	out = x->out;
 
 	if(argc) {
@@ -993,18 +993,18 @@ void dbap2d_speakers (dbap2d *x, t_symbol *msg, short argc, t_atom *argv)
 			x->woofers[i].pos.y = temp[i*DIMEN+1];
 		}
 
-		
-		outlet_float(x->c_out2, x->num_woofers);		
-		
+
+		outlet_float(x->c_out2, x->num_woofers);
+
 
 		if(x->box_scale) { //make box coords regarding speakers position
-			
+
 			dbap2d_box_scale(x);
 
 		}
 
 	} else {
-		error(" no arguments via speakers method");
+		pd_error(x," no arguments via speakers method");
 	}
 }
 
@@ -1022,7 +1022,7 @@ void dbap2d_setspeaker (dbap2d *x, t_symbol *msg, short argc, t_atom *argv) // p
 
 			for(i=0;i<DIMEN;i++) {
 				if(argv->a_type == A_FLOAT) {
-					temp[i] = (double)argv->a_w.w_float;	
+					temp[i] = (double)argv->a_w.w_float;
 					argv++;
 				}
 			}
@@ -1035,7 +1035,7 @@ void dbap2d_setspeaker (dbap2d *x, t_symbol *msg, short argc, t_atom *argv) // p
 //		x->speakers[id*DIMEN+1] = temp[1];
 
 		}
-		
+
 	}
 
 
@@ -1048,13 +1048,13 @@ void dbap2d_list (dbap2d *x, t_symbol *msg, short argc, t_atom *argv) //updated 
 
 
 	if (argc) {
-	
+
 		double	temp[DIMEN]={0.0f,0.0f};
 		int i;
 		int id;
 		int status;
 
-		if (argc<3) { 
+		if (argc<3) {
 			post("dbap's list method requires: snd index(int) + posx + posy (floats) + (optional active status0/1)");
 		}
 
@@ -1062,24 +1062,24 @@ void dbap2d_list (dbap2d *x, t_symbol *msg, short argc, t_atom *argv) //updated 
 			status = (argv+3)->a_w.w_float;
 			x->o[id].active = status;
 		}
-		
+
 		if (argc==3) { //id posx posy
 			id = (argv+0)->a_w.w_float;
 			argv++;
 
 			for(i=0;i<DIMEN;i++) {
 				if(argv->a_type == A_FLOAT) {
-					temp[i] = (double)argv->a_w.w_float;	
+					temp[i] = (double)argv->a_w.w_float;
 					argv++;
 				}
 			}
 
 
 
-		set(x->o[id].pos, temp[0], temp[1]); 
+		set(x->o[id].pos, temp[0], temp[1]);
 		dbap2d_calc_snd(x, id);
 		}
-		
+
 	}
 
 
@@ -1088,27 +1088,27 @@ void dbap2d_list (dbap2d *x, t_symbol *msg, short argc, t_atom *argv) //updated 
 
 	int i,numtriplets,j;
 	double temp[MAXVALUE];
-	
 
 
-		
+
+
 	numtriplets = argc / DIMEN;
 	x->num_sounds = numtriplets;
 //	post("num sounds: %ld", x->num_sounds);
-	
-	for(i=0; i<argc;i++) {	
+
+	for(i=0; i<argc;i++) {
 			if (argv->a_type == A_FLOAT) {
 				temp[i] = (double)argv->a_w.w_float;
 				argv++;
-			} 
+			}
 			else if (argv->a_type == A_LONG) {
 				temp[i] = (double)argv->a_w.w_float;
 				argv++;
-			} 
+			}
 	}
 
 	for(i=0;i<numtriplets;i++) {
-		set(x->o[i].pos, temp[i*DIMEN+0], temp[i*DIMEN+1]); 
+		set(x->o[i].pos, temp[i*DIMEN+0], temp[i*DIMEN+1]);
 		dbap2d_calc_snd(x, i);
 	}
 
@@ -1133,7 +1133,7 @@ void dbap2d_regions (dbap2d *x, t_symbol *msg, short argc, t_atom *argv)
 //	double oneoverdimen = 1/DIMEN;
 //	vec min,max;
 	t_atom *out;
-	
+
 	out = x->out;
 
 	if(argc) {
@@ -1142,7 +1142,7 @@ void dbap2d_regions (dbap2d *x, t_symbol *msg, short argc, t_atom *argv)
 
 		for(i=0;i<argc;i++) {
 			if (argv[i].a_type == A_FLOAT) { temp[i] = (double) argv[i].a_w.w_float; }
-			
+
 
 //			x->speakers[i] = temp[i];
 		}
@@ -1154,12 +1154,12 @@ void dbap2d_regions (dbap2d *x, t_symbol *msg, short argc, t_atom *argv)
 			x->boxes[i].max.y = temp[i*DIMEN*2+3];
 		}
 
-		
-//		outlet_float(x->c_out2, x->num_woofers);		
-		
+
+//		outlet_float(x->c_out2, x->num_woofers);
+
 
 	} else {
-		error(" no arguments via speakers method");
+		pd_error(x," no arguments via speakers method");
 	}
 }
 
@@ -1177,7 +1177,7 @@ void dbap2d_region (dbap2d *x, t_symbol *msg, short argc, t_atom *argv) // per s
 
 			for(i=0;i<DIMEN*2;i++) {
 				if(argv->a_type == A_FLOAT) {
-					temp[i] = (double)argv->a_w.w_float;	
+					temp[i] = (double)argv->a_w.w_float;
 					argv++;
 				}
 			}
@@ -1192,7 +1192,7 @@ void dbap2d_region (dbap2d *x, t_symbol *msg, short argc, t_atom *argv) // per s
 //		x->speakers[id*DIMEN+1] = temp[1];
 
 		}
-		
+
 	}
 
 
@@ -1211,10 +1211,10 @@ int dbap2d_check_bullseye(dbap2d *x, int snd)
 
 	set(sndpt, x->o[snd].pos.x,x->o[snd].pos.y);
 	for(i=0; i < x->num_woofers; i++ ) {
-		set(speaker, 
+		set(speaker,
 			x->woofers[i].pos.x,
 			x->woofers[i].pos.y);
-		
+
 	// cityblock distance
 		disttemp.x = speaker.x - sndpt.x;
 		disttemp.y = speaker.y - sndpt.y;
@@ -1222,24 +1222,24 @@ int dbap2d_check_bullseye(dbap2d *x, int snd)
 		if(disttemp.y<0.) disttemp.y *= -1;
 
 		dist = disttemp.x + disttemp.y;
-		
+
 		if ( dist < x->o[snd].radius ) //cityblock distance is not eucleadean, but should work for the purposes
 			return i;
 	}
-	
+
 	return -1;
-	
+
 }
 
 void dbap2d_exec_bullseye(dbap2d *x, int snd, int speaker)
 {
 	t_atom	*out;
 	int i;
-	
+
 	out = x->out;
 
 			// output 01 levels
-			for (i=0; i<x->num_woofers;i++) 
+			for (i=0; i<x->num_woofers;i++)
 			{
 				SETFLOAT(out+0, snd);
 				SETFLOAT(out+1, i);
@@ -1249,7 +1249,7 @@ void dbap2d_exec_bullseye(dbap2d *x, int snd, int speaker)
 				} else {
 				 SETFLOAT(out+2,0.);
 				}
-				
+
 				outlet_list(x->c_out, 0L, 3, out);
 
 			}
@@ -1264,16 +1264,16 @@ void dbap2d_exec_silence(dbap2d *x, int snd)
 {
 	t_atom	*out;
 	int i;
-	
+
 	out = x->out;
 
 			// output 01 levels
-			for (i=0; i<x->num_woofers;i++) 
+			for (i=0; i<x->num_woofers;i++)
 			{
 				SETFLOAT(out+0, snd);
 				SETFLOAT(out+1, i);
 				 SETFLOAT(out+2,0.);
-				
+
 				outlet_list(x->c_out, 0L, 3, out);
 
 			}
@@ -1295,31 +1295,31 @@ void dbap2d_calc_snd(dbap2d *x, int snd)
 	int 	num_woofers = x->num_woofers;
 	double 	sum=0., one_over_sum, val;
 	int		bingo=-1;
-	
+
 	double	falloff;
 	double	boxfactor=1.0f;
-	
+
 	t_atom	*out;
-	
+
 	out = x->out;
 
 	set(inpt, x->o[snd].pos.x,x->o[snd].pos.y);
 	radius = x->o[snd].radius;
 	falloff = x->o[snd].f;
-	
+
 	if(x->o[snd].active == 0) {
 		dbap2d_exec_silence(x,snd); // if inactive, output zero's &return
-		return; 
+		return;
 	}
 
-	switch(x->o[snd].om) 
+	switch(x->o[snd].om)
 	{
 
 		case 0:
 		// normalize & no box (fixed according to tl.dbap_1_over_r
-		
+
 			// pass 0 - bullseye method
-		
+
 			if(x->bullseye) {
 					bingo=dbap2d_check_bullseye(x,snd);
 					if(bingo!=-1) {
@@ -1331,14 +1331,14 @@ void dbap2d_calc_snd(dbap2d *x, int snd)
 			radius *= radius; //square radius from now on
 
 			// pass 1 - calculate squares of distances
-						
-			for (i=0; i<num_woofers;i++) 
+
+			for (i=0; i<num_woofers;i++)
 			{
 			 if(x->woofers[i].active) {
-				set(speaker, 
+				set(speaker,
 					x->woofers[i].pos.x,
 					x->woofers[i].pos.y);
-				
+
 				avec.x = speaker.x-inpt.x;
 				avec.y = speaker.y-inpt.y;
 
@@ -1346,45 +1346,45 @@ void dbap2d_calc_snd(dbap2d *x, int snd)
 				avec.y *= avec.y;
 
 				temp[i] = 1. / (avec.x + avec.y + radius); //adding squared radius/diffusion parameter
-			 }	
+			 }
 			}
 
 			// pass 2 - calculate levels
 
 			sum = 0.0f;
-			for (i=0; i<num_woofers;i++) 
+			for (i=0; i<num_woofers;i++)
 			{
 				if(x->woofers[i].active)	sum += temp[i];
 			}
 
 			val = 1.0f/sqrt(sum);
-	
-			for (i=0; i<num_woofers;i++) 
+
+			for (i=0; i<num_woofers;i++)
 			{
 
-				if(x->woofers[i].active)	temp[i] = sqrt(temp[i]) * val; 
-					
+				if(x->woofers[i].active)	temp[i] = sqrt(temp[i]) * val;
+
 			}
 
 
-			
+
 			SETFLOAT(out+0, snd);
 			SETFLOAT(out+1, val);
 			outlet_anything(x->c_out2, ps_distmass, 2, out);
-			
+
 			// output
-			for (i=0; i<num_woofers;i++) 
+			for (i=0; i<num_woofers;i++)
 			{
-				if(x->woofers[i].active) 
+				if(x->woofers[i].active)
 				{
 					SETFLOAT(out+0, snd);
 					SETFLOAT(out+1, i);
 
 					if(x->o[snd].gain==1.0f) SETFLOAT(out+2, temp[i]);
 					else SETFLOAT(out+2, temp[i]*x->o[snd].gain);
-					
+
 					outlet_list(x->c_out, 0L, 3, out);
-	
+
 				} else if(!x->woofers[i].active)  { //output 0's on the inactive speaker
 					SETFLOAT(out+0, snd);
 					SETFLOAT(out+1, i);
@@ -1398,7 +1398,7 @@ void dbap2d_calc_snd(dbap2d *x, int snd)
 		case 1:
 
 			// pass 0 - bullseye method
-		
+
 			if(x->bullseye) {
 					bingo=dbap2d_check_bullseye(x,snd);
 					if(bingo!=-1) {
@@ -1410,14 +1410,14 @@ void dbap2d_calc_snd(dbap2d *x, int snd)
 
 
 			// no normalize & no box
-			for (i=0; i<num_woofers;i++) 
+			for (i=0; i<num_woofers;i++)
 			{
-			 if(x->woofers[i].active) 
+			 if(x->woofers[i].active)
 			 {
-				set(speaker, 
+				set(speaker,
 					x->woofers[i].pos.x,
 					x->woofers[i].pos.y);
-				
+
 				distance = distan2(speaker,inpt);
 
 				distance -= radius;
@@ -1431,16 +1431,16 @@ void dbap2d_calc_snd(dbap2d *x, int snd)
 				sum += temp[i];
 			 }
 			}
-			
+
 			one_over_sum = 1.00f/(sum);
 			SETFLOAT(out+0, snd);
 			SETFLOAT(out+1, one_over_sum);
 			outlet_anything(x->c_out2, ps_distmass, 2, out);
-			
+
 			// output
-			for (i=0; i<num_woofers;i++) 
+			for (i=0; i<num_woofers;i++)
 			{
-				if(x->woofers[i].active) 
+				if(x->woofers[i].active)
 				{
 					temp[i] = temp[i]*one_over_sum;
 				//	temp[i] = pow(temp[i],0.5);
@@ -1448,7 +1448,7 @@ void dbap2d_calc_snd(dbap2d *x, int snd)
 					SETFLOAT(out+1, i);
 					if(x->o[snd].gain==1.0f) SETFLOAT(out+2, temp[i]);
 					else SETFLOAT(out+2, temp[i]*x->o[snd].gain);
-					
+
 					outlet_list(x->c_out, 0L, 3, out);
 
 				} else if(!x->woofers[i].active)  { //output 0's on the inactive speaker
@@ -1464,7 +1464,7 @@ void dbap2d_calc_snd(dbap2d *x, int snd)
 
 		case 2:
 			// pass 0 - bullseye method
-		
+
 			if(x->bullseye) {
 					bingo=dbap2d_check_bullseye(x,snd);
 					if(bingo!=-1) {
@@ -1475,15 +1475,15 @@ void dbap2d_calc_snd(dbap2d *x, int snd)
 
 
 		// normalize &  box
-	
-			for (i=0; i<num_woofers;i++) 
+
+			for (i=0; i<num_woofers;i++)
 			{
 				if(x->woofers[i].active)
 				{
-				set(speaker, 
+				set(speaker,
 					x->woofers[i].pos.x,
 					x->woofers[i].pos.y);
-				
+
 				distance = distan(speaker,inpt);
 //				post("snd1 %ld speaker %ld distance %f", snd, i, distance);
 
@@ -1500,7 +1500,7 @@ void dbap2d_calc_snd(dbap2d *x, int snd)
 //				sum += distance;
 				}
 			}
-			
+
 			one_over_sum = 1.00f/(sum);
 			SETFLOAT(out+0, snd);
 			SETFLOAT(out+1, one_over_sum);
@@ -1510,9 +1510,9 @@ void dbap2d_calc_snd(dbap2d *x, int snd)
 			boxfactor = dbap2d_box_check(x, inpt,radius,falloff, one_over_sum);
 //			post("snd %ld boxfactor %f", snd, boxfactor);
 //      post ("falloff %f", falloff);
-			
+
 			// output
-			for (i=0; i<num_woofers;i++) 
+			for (i=0; i<num_woofers;i++)
 			{
 				if(x->woofers[i].active)
 				{
@@ -1523,7 +1523,7 @@ void dbap2d_calc_snd(dbap2d *x, int snd)
 					SETFLOAT(out+1, i);
 					if(x->o[snd].gain==1.0f) SETFLOAT(out+2, temp[i]);
 					else SETFLOAT(out+2, temp[i]*x->o[snd].gain);
-					
+
 					outlet_list(x->c_out, 0L, 3, out);
 
 				} else if(!x->woofers[i].active)  { //output 0's on the inactive speaker
@@ -1539,7 +1539,7 @@ void dbap2d_calc_snd(dbap2d *x, int snd)
 		case 3:
 
 			// pass 0 - bullseye method
-		
+
 			if(x->bullseye) {
 					bingo=dbap2d_check_bullseye(x,snd);
 					if(bingo!=-1) {
@@ -1550,14 +1550,14 @@ void dbap2d_calc_snd(dbap2d *x, int snd)
 
 
 			// no normalize &  box
-			for (i=0; i<num_woofers;i++) 
+			for (i=0; i<num_woofers;i++)
 			{
 				if(x->woofers[i].active)
 				{
-				set(speaker, 
+				set(speaker,
 					x->woofers[i].pos.x,
 					x->woofers[i].pos.y);
-				
+
 				distance = distan2(speaker,inpt);
 
 				distance -= radius;
@@ -1571,7 +1571,7 @@ void dbap2d_calc_snd(dbap2d *x, int snd)
 				sum += temp[i];
 				}
 			}
-			
+
 			one_over_sum = 1.00f/(sum);
 			SETFLOAT(out+0, snd);
 			SETFLOAT(out+1, one_over_sum);
@@ -1580,9 +1580,9 @@ void dbap2d_calc_snd(dbap2d *x, int snd)
 	//		post("normalize&box inpt %f %f", inpt.x, inpt.y);
 			boxfactor = dbap2d_box_check2(x, inpt,radius,falloff, one_over_sum);
 	//		post("snd %ld boxfactor %f", snd, boxfactor);
-			
+
 			// output
-			for (i=0; i<num_woofers;i++) 
+			for (i=0; i<num_woofers;i++)
 			{
 				if(x->woofers[i].active)
 				{
@@ -1593,7 +1593,7 @@ void dbap2d_calc_snd(dbap2d *x, int snd)
 					SETFLOAT(out+1, i);
 					if(x->o[snd].gain==1.0f) SETFLOAT(out+2, temp[i]);
 					else SETFLOAT(out+2, temp[i]*x->o[snd].gain);
-					
+
 					outlet_list(x->c_out, 0L, 3, out);
 
 				} else if(!x->woofers[i].active)  { //output 0's on the inactive speaker
@@ -1611,9 +1611,9 @@ void dbap2d_calc_snd(dbap2d *x, int snd)
 
 			case 4:
 		// normalize & no box (fixed according to tl.dbap_1_over_r -- non sqrt mode
-		
+
 			// pass 0 - bullseye method
-		
+
 			if(x->bullseye) {
 					bingo=dbap2d_check_bullseye(x,snd);
 					if(bingo!=-1) {
@@ -1625,15 +1625,15 @@ void dbap2d_calc_snd(dbap2d *x, int snd)
 			radius *= radius; //square radius from now on
 
 			// pass 1 - calculate squares of distances
-						
-			for (i=0; i<num_woofers;i++) 
+
+			for (i=0; i<num_woofers;i++)
 			{
 				if(x->woofers[i].active)
 				{
-				set(speaker, 
+				set(speaker,
 					x->woofers[i].pos.x,
 					x->woofers[i].pos.y);
-				
+
 				avec.x = speaker.x-inpt.x;
 				avec.y = speaker.y-inpt.y;
 
@@ -1647,7 +1647,7 @@ void dbap2d_calc_snd(dbap2d *x, int snd)
 			// pass 2 - calculate levels
 
 			sum = 0.0f;
-			for (i=0; i<num_woofers;i++) 
+			for (i=0; i<num_woofers;i++)
 			{
 				if(x->woofers[i].active) sum += temp[i];
 			}
@@ -1655,31 +1655,31 @@ void dbap2d_calc_snd(dbap2d *x, int snd)
 	//		val = 1.0f/sqrt(sum);
 			val = 1.0f/sum;
 
-	
-			for (i=0; i<num_woofers;i++) 
+
+			for (i=0; i<num_woofers;i++)
 			{
 
-				if(x->woofers[i].active) temp[i] = temp[i] * val; 
-					
+				if(x->woofers[i].active) temp[i] = temp[i] * val;
+
 			}
 
 
-			
+
 			SETFLOAT(out+0, snd);
 			SETFLOAT(out+1, val);
 			outlet_anything(x->c_out2, ps_distmass, 2, out);
-			
+
 			// output
-			for (i=0; i<num_woofers;i++) 
+			for (i=0; i<num_woofers;i++)
 			{
-				if(x->woofers[i].active) 
+				if(x->woofers[i].active)
 				{
 					SETFLOAT(out+0, snd);
 					SETFLOAT(out+1, i);
 
 					if(x->o[snd].gain==1.0f) SETFLOAT(out+2, temp[i]);
 					else SETFLOAT(out+2, temp[i]*x->o[snd].gain);
-					
+
 					outlet_list(x->c_out, 0L, 3, out);
 
 				} else if(!x->woofers[i].active)  { //output 0's on the inactive speaker
@@ -1691,9 +1691,9 @@ void dbap2d_calc_snd(dbap2d *x, int snd)
 			}
 			break;
 
-	
-	
-	
+
+
+
 	}
 
 
@@ -1703,7 +1703,7 @@ void dbap2d_calc_snd(dbap2d *x, int snd)
 
 void dbap2d_setsndc(dbap2d *x, t_symbol *msg, short argc, t_atom *argv)
 {
-	
+
 	if (argc) {
 		double temp[DIMEN] = {0.,0.};
 		int i;
@@ -1715,7 +1715,7 @@ void dbap2d_setsndc(dbap2d *x, t_symbol *msg, short argc, t_atom *argv)
 
 			for(i=0;i<DIMEN;i++) {
 				if(argv->a_type == A_FLOAT) {
-					temp[i] = (double)argv->a_w.w_float;	
+					temp[i] = (double)argv->a_w.w_float;
 					argv++;
 				}
 			}
@@ -1726,36 +1726,36 @@ void dbap2d_setsndc(dbap2d *x, t_symbol *msg, short argc, t_atom *argv)
 
 		dbap2d_calc_snd(x, id);
 		}
-		
+
 	}
 
 
 
 //	set(x->o[snd].pos, (double)x1, (double)x2);
-//	
+//
 //	dbap2d_calc_snd(x, snd);
 
-	
+
 }
 
  double distan(vec o, vec p)
 {
 	vec dist;
-	
+
 	dist.x = p.x - o.x;
 	dist.y = p.y - o.y;
-	
+
 	return(len(dist));
-	
+
 }
 
  double distan2(vec o, vec p)
 {
 	vec dist;
-	
+
 	dist.x = p.x - o.x;
 	dist.y = p.y - o.y;
-	
+
 	return(len2(dist));
 }
 
@@ -1776,7 +1776,7 @@ void dbap2d_getspeakers (dbap2d *x, t_symbol *msg, short argc, t_atom *argv)
 
 	t_atom  out[MAXVALUE];
 	int i;
-	
+
 
 	for(i=0;i<x->num_woofers;i++) {
 		SETFLOAT(out+i*DIMEN+0,x->woofers[i].pos.x);
@@ -1790,9 +1790,9 @@ void dbap2d_getspeakers (dbap2d *x, t_symbol *msg, short argc, t_atom *argv)
 void dbap2d_version (dbap2d *x, t_symbol *msg, short argc, t_atom *argv)
 {
 	t_atom * out;
-	
+
 	out = x->out;
-	
+
 	SETSYM(out+0,ps_myversion);
 	outlet_anything(x->c_out2, ps_version, 1, out);
 
@@ -1808,9 +1808,9 @@ void dbap2d_assist(dbap2d *x, void *b, long m, long a, char *s)
 void dbap2d_setup (void)
 {
   //long int tick = gettime();
-  
+
   dbap2d_class = class_new(gensym("dbap2d"), (t_newmethod)dbap2d_new, (t_method)dbap2d_free, sizeof(dbap2d), 0, A_GIMME, 0);
-  
+
   class_addmethod(dbap2d_class, (t_method)dbap2d_list,					gensym("list"),				A_GIMME,0);
   class_addmethod(dbap2d_class, (t_method)dbap2d_speakers, gensym("speakers"),			A_GIMME,0);
   class_addmethod(dbap2d_class, (t_method)dbap2d_getspeakers,gensym("getspeakers"),		A_GIMME,0);
@@ -1834,35 +1834,35 @@ void dbap2d_setup (void)
   class_addmethod(dbap2d_class, (t_method)dbap2d_falloff,				gensym("falloff"),			A_GIMME,0);
   class_addmethod(dbap2d_class, (t_method)dbap2d_snd_falloff,			gensym("falloff_snd"),			A_GIMME,0);
   class_addmethod(dbap2d_class, (t_method)dbap2d_snd_falloff,			gensym("falloff_input"),		A_GIMME,0);
-  
+
   class_addmethod(dbap2d_class, (t_method)dbap2d_setboxcoords,			gensym("boxcoords"),		A_GIMME,0);
   class_addmethod(dbap2d_class, (t_method)dbap2d_setboxcenter,			gensym("boxcenter"),		A_GIMME,0);
   class_addmethod(dbap2d_class, (t_method)dbap2d_setboxdim,				gensym("boxdim"),			A_GIMME,0);
   class_addmethod(dbap2d_class, (t_method)dbap2d_setboxscale,			gensym("boxscale"),			A_GIMME,0);
   class_addmethod(dbap2d_class, (t_method)dbap2d_setboxmode,				gensym("boxmode"),			A_FLOAT,0);
   class_addmethod(dbap2d_class, (t_method)dbap2d_setbullseye,			gensym("bullseye"),			A_FLOAT,0);
-  
+
   class_addmethod(dbap2d_class, (t_method)dbap2d_snd_active,				gensym("active"),			A_DEFFLOAT,A_DEFFLOAT,0);
   class_addmethod(dbap2d_class, (t_method)dbap2d_snd_active,				gensym("active_snd"),			A_DEFFLOAT,A_DEFFLOAT,0);
   class_addmethod(dbap2d_class, (t_method)dbap2d_snd_active,				gensym("active_input"),			A_DEFFLOAT,A_DEFFLOAT,0);
   class_addmethod(dbap2d_class, (t_method)dbap2d_speaker_active,			gensym("active_speaker"),			A_DEFFLOAT,A_DEFFLOAT,0);
   class_addmethod(dbap2d_class, (t_method)dbap2d_region_active,				gensym("active_regions"),			A_DEFFLOAT,A_DEFFLOAT,0);
-  
+
   class_addmethod(dbap2d_class, (t_method)dbap2d_setregions,				gensym("regions"),			A_FLOAT,0);
   class_addmethod(dbap2d_class, (t_method)dbap2d_regions,				gensym("regions_all"),			A_GIMME,0);
   class_addmethod(dbap2d_class, (t_method)dbap2d_region,					gensym("region"),			A_GIMME,0);
-  
+
   class_addmethod(dbap2d_class, (t_method)dbap2d_num_sounds,				gensym("num_sounds"),				A_DEFFLOAT,0);
   class_addmethod(dbap2d_class, (t_method)dbap2d_num_regions,			gensym("num_regions"),				A_DEFFLOAT,0);
   class_addmethod(dbap2d_class, (t_method)dbap2d_num_speakers,			gensym("num_speakers"),				A_DEFFLOAT,0);
-  
-  
-	
+
+
+
   class_addmethod(dbap2d_class, (t_method)dbap2d_assist,					gensym("assist"), 			A_CANT, 0);
   class_addmethod(dbap2d_class, (t_method)dbap2d_version,				gensym("version"),				A_GIMME,0);
-  
+
   post("dbap2d by andre sier, inspired by trond lossius");
-  
+
   ps_boxspeakers = gensym("boxspeakers");
   ps_boxcoords = gensym("boxcoords");
   ps_boxcenter =  gensym("boxcenter");
@@ -1881,12 +1881,12 @@ old main method
 
 		case 0:
 		// normalize & no box
-			for (i=0; i<num_woofers;i++) 
+			for (i=0; i<num_woofers;i++)
 			{
-				set(speaker, 
+				set(speaker,
 					x->speakers[i*DIMEN+0],
 					x->speakers[i*DIMEN+1]);
-				
+
 				distance = distan(speaker,inpt);
 //				post("snd1 %ld speaker %ld distance %f", snd, i, distance);
 
@@ -1902,21 +1902,21 @@ old main method
 				sum += temp[i];
 //				sum += distance;
 			}
-			
+
 			one_over_sum = 1.00f/sum;
 			SETFLOAT(out+0, snd);
 			SETFLOAT(out+1, one_over_sum);
 			outlet_anything(x->c_out2, ps_distmass, 2, out);
-			
+
 			// output
-			for (i=0; i<num_woofers;i++) 
+			for (i=0; i<num_woofers;i++)
 			{
 				temp[i] = temp[i]*one_over_sum;
 				temp[i] = pow(temp[i],0.5);
 				SETFLOAT(out+0, snd);
 				SETFLOAT(out+1, i);
 				SETFLOAT(out+2, temp[i]);
-				
+
 				outlet_list(x->c_out, 0L, 3, out);
 
 			}
