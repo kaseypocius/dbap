@@ -1,5 +1,5 @@
 #N canvas 42 190 1013 556 10;
-#N canvas 0 22 873 507 AUDIO-DEMO 1;
+#N canvas 0 23 873 507 AUDIO-DEMO 1;
 #X floatatom 312 29 5 0 0 0 - - -;
 #X floatatom 351 30 5 0 0 0 - - -;
 #X obj 351 49 t b f;
@@ -182,8 +182,6 @@ rig (see DBAP paper section 2.3.);
 #X text 51 457 have a look at the paper;
 #X text 58 488 DBAP - DISTANCE-BASED AMPLITUDE PANNING \, ICMC 2009
 ;
-#X text 56 472 Trond Lossius \, Pascal Baltazar \, Theo de la Hogue
-;
 #X text 21 -7 DBAP2D - DISTANCE-BASED AMPLITUDE PANNING;
 #X text 38 11 external by André Sier - http://www.s373.net;
 #X text 38 27 Pd port by Matthias Kronlachner \, 2013;
@@ -225,6 +223,7 @@ rig (see DBAP paper section 2.3.);
 boxspeakersdim;
 #X connect 0 0 1 0;
 #X restore 69 123 pd status;
+#X text 56 472 Trond Lossius \, Pia Baltazar \, Theo de la Hogue;
 #X connect 2 0 31 0;
 #X connect 3 0 6 0;
 #X connect 4 0 5 0;
@@ -233,7 +232,7 @@ boxspeakersdim;
 #X connect 6 0 7 0;
 #X connect 7 0 34 0;
 #X connect 10 0 9 0;
-#X connect 10 1 58 0;
+#X connect 10 1 57 0;
 #X connect 12 0 15 0;
 #X connect 13 0 14 0;
 #X connect 14 0 15 0;
@@ -245,4 +244,4 @@ boxspeakersdim;
 #X connect 35 0 10 0;
 #X connect 37 0 44 0;
 #X connect 38 0 37 0;
-#X connect 52 0 2 0;
+#X connect 51 0 2 0;
